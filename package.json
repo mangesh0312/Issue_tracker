@@ -1,0 +1,16 @@
+{
+  "name": "issue_tracker",
+  "version": "1.0.0",
+  "description": "Project Issue Tracking App",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mangesh Singh",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.9",
+    "express": "^4.18.2"
+  }
+}

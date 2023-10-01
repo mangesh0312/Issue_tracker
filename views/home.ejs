@@ -1,0 +1,19 @@
+<html>
+  <head>
+    <title><%= title %></title>
+  </head>
+  <body>
+    <h1>Project List</h1>
+    <div>
+      <ul>
+        <% for(let i of project_list){%>
+        <li>
+          <p><%= i.name %></p>
+          <p><%= i.description %></p>
+          <p><%= i.Author %></p>
+        </li>
+        <%} %>
+      </ul>
+    </div>
+  </body>
+</html>
