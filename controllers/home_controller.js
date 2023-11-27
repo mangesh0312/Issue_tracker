@@ -1,24 +1,16 @@
-const projectList = [
-  {
-    name: "Java Project",
-    description: "This project based on java",
-    Author: "Mangesh Singh",
-  },
-  {
-    name: "Python Project",
-    description: "This project based on python",
-    Author: "Neha Singh",
-  },
-  {
-    name: "Javascript Project",
-    description: "This project based on Javascript",
-    Author: "Ajay Singh",
-  },
-];
+// require the createProject from the models
+const createProject = require("../models/create_project");
 
-module.exports.home = function (req, res) {
+// code to render the home page.
+module.exports.home = async function (req, res) {
+  try {
+    const projects = await createProject.find({}).sort("-createdAt");
     return res.render("home", {
-    title: "Issue Tracker",
-    project_list: projectList,
-  });
-}
+      title: "Issue tracker | Home",
+      projects,
+    });
+  } catch (error) {
+    console.log("Error", error);
+    return;
+  }
+};

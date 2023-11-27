@@ -1,31 +1,48 @@
-const exp = require("constants");
+// require all required module and variable
 const express = require("express");
-const path = require("path");
-
-const port = 8000;
-
 const app = express();
+const port = process.env.port || 8000;
+const path = require("path");
+const expressLayouts = require("express-ejs-layouts");
+const db = require("./config/mongoose");
+const flash = require("connect-flash");
+const customMware = require("./config/middleware");
+const session = require("express-session");
 
-app.use("/", require("./routes/index"));
-
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
+// setup the express and assets file
 app.use(express.urlencoded());
-app.use(express.static("assets"));
+app.use(express.static("./assets"));
 
-// app.get("/", function (req, res) {
-//   //res.send("<h1>Cool, Its an Issue Tracket Project</h1>");
+// setup the view engine
+app.set("view engine", "ejs");
+app.set("views", "./views");
 
-//   return res.render("home", {
-//     title: "Issue Tracker",
-//     project_list: projectList,
-//   });
-// });
+app.use(expressLayouts);
 
+// extract the style and script
+app.set("layout extractStyles", true);
+app.set("layout extractScripts", true);
+
+// use the session for flash function
+app.use(
+  session({
+    secret: "IssueCreater",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+// use the falsh function and custom mware
+app.use(flash());
+app.use(customMware.setFlash);
+
+// use the routes here
+app.use("/", require("./routes"));
+
+// here setup the port
 app.listen(port, function (err) {
   if (err) {
-    console.log(`Error in running the server: ${err}`);
+    console.log("error in connecting to port", err);
   }
-
-  console.log(`Server is up and running on port: ${port}`);
+  console.log("Server is up and running on port: ", port);
 });
